@@ -2,6 +2,7 @@ package com.example.nikos.tvshowsnextepisode;
 
 import android.app.Application;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class showsList extends AppCompatActivity {
 
     private ListView listView;
     private SwipeRefreshLayout swipeRefresh;
+    private DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +102,11 @@ public class showsList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         listView.setAdapter(null);
-
-        ArrayList<Show> shows = Utilities.getAllSavedShows(this);
+        Cursor data = databaseHelper.getData();
+        ArrayList<Show> shows = new ArrayList<>();
+        while(data.moveToNext()){
+            shows.add(new Show(data.getString(1), data.getString(0), data.getString(2)));
+        }
 
         if (shows == null || shows.size() == 0) {
             Toast.makeText(this, "You have no saved shows!", Toast.LENGTH_SHORT).show();
@@ -128,15 +133,14 @@ public class showsList extends AppCompatActivity {
 
     }
 
-    public void removeShow(Show show){
-        final String fileName = show.getName() + Utilities.FILE_EXTENSION;
+    public void removeShow(final Show show){
         AlertDialog.Builder dialog =  new AlertDialog.Builder(this)
                 .setTitle("Remove")
                 .setMessage("You are about to remove " + show.getName() + ", are you sure?")
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Utilities.deleteShow(getApplicationContext(),fileName);
+                        databaseHelper.deleteShow(show.getLink());
                         Toast.makeText(getApplicationContext(), "show is removed", Toast.LENGTH_SHORT).show();
                         finish();
                         startActivity(getIntent());

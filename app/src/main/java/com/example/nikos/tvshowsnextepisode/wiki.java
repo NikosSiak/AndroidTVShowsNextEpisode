@@ -137,9 +137,9 @@ public class wiki extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            DatabaseHelper databaseHelper = new DatabaseHelper(context);
             if (err == 0) {
-                Show show = new Show(name,link,ep);
-                if (!Utilities.saveShow(context, show)) {
+                if (!databaseHelper.addData(link,name,ep)) {
                     Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
                 else{

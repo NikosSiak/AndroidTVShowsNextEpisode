@@ -2,6 +2,7 @@ package com.example.nikos.tvshowsnextepisode;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +28,7 @@ public class episodesList extends AppCompatActivity{
 
     private ListView episodesList;
     private SwipeRefreshLayout swipeRefresh;
+    private DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,13 @@ public class episodesList extends AppCompatActivity{
             }
         });
 
-        ArrayList<Show> shows = Utilities.getRunningShows(this);
+        Cursor data = databaseHelper.getData();
+        ArrayList<Show> shows = new ArrayList<>();
+        while(data.moveToNext()){
+            if (!data.getString(2).equals("null")) {
+                shows.add(new Show(data.getString(1), data.getString(0), data.getString(2)));
+            }
+        }
 
         if (shows == null || shows.size() == 0) {
             Toast.makeText(this, "You have no new episodes to watch!", Toast.LENGTH_SHORT).show();
@@ -106,7 +114,11 @@ public class episodesList extends AppCompatActivity{
         switch (item.getItemId()) {
             case R.id.find_new_episodes:
                 //int count = 0;
-                ArrayList<Show> shows = Utilities.getAllSavedShows(getApplicationContext());
+                Cursor data = databaseHelper.getData();
+                ArrayList<Show> shows = new ArrayList<>();
+                while(data.moveToNext()){
+                    shows.add(new Show(data.getString(1), data.getString(0), data.getString(2)));
+                }
                 if (shows != null && shows.size()!=0){
                     Date d = Calendar.getInstance().getTime();
                     SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy", Locale.US);

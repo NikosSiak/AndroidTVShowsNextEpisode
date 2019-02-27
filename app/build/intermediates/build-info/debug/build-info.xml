@@ -2,34 +2,38 @@
 <instant-run
     abi="armeabi-v7a,armeabi"
     api-level="23"
-    build-mode="HOT_WARM"
+    build-mode="COLD"
     density="xhdpi"
     format="10"
-    plugin-version="3.3.0"
-    timestamp="1549830719712"
+    ir-eligibility="COMPATIBLE"
+    plugin-version="3.3.1"
+    timestamp="1551272638595"
     token="-4386452741975076294"
-    verifier="COMPATIBLE" >
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="266" />
+        duration="331" />
     <task
         name="instant-run-dex"
-        duration="131" />
+        duration="0" />
     <task
         name="instant-run-transform"
-        duration="37" />
+        duration="11" />
     <task
         name="verifier"
         duration="4" />
 
     <artifact
-        location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\reload-dex\debug\classes.dex"
-        type="RELOAD_DEX" />
+        location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1549830611327"
+        timestamp="1551272442664"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
@@ -69,12 +73,16 @@
             type="SPLIT" />
     </build>
     <build
-        build-mode="HOT_WARM"
-        timestamp="1549830719712"
-        verifier="COMPATIBLE" >
+        build-mode="COLD"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1551272638595"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\reload-dex\debug\classes.dex"
-            type="RELOAD_DEX" />
+            location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            type="SPLIT" />
+        <artifact
+            location="D:\documents\projects\TVShowsNextEpisode\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+            type="SPLIT_MAIN" />
     </build>
 
 </instant-run>
