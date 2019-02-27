@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL1, name);
         contentValues.put(COL2, nextEpisode);
         Log.d(TAG,"addData: Adding " + name + " to " + TABLE_NAME);
-        long res = db.insert(TABLE_NAME, null, contentValues);
+        long res = db.insertWithOnConflict(TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
 
         if (res == -1){
             return false;
