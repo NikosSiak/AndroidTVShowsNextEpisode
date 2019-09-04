@@ -55,19 +55,19 @@ public class episodesList extends AppCompatActivity{
             }
         }
 
-        if (shows == null || shows.size() == 0) {
+        if (shows.size() == 0) {
             Toast.makeText(this, "You have no new episodes to watch!", Toast.LENGTH_SHORT).show();
-            return;
         } else {
             Collections.sort(shows,new Comparator<Show>() {
                 @Override
                 public int compare(Show show1, Show show2) {
+                    if (show1.getNextEpisode().equals(show2.getNextEpisode())) {
+                        return 0;
+                    }
                     if(Utilities.compareDates(show1.getNextEpisode(),show2.getNextEpisode())){
                         return -1;
                     }
-                    else{
-                        return 1;
-                    }
+                    return 1;
                 }
             });
             showAdapter na = new showAdapter(this, R.layout.item_show, shows);
@@ -113,33 +113,15 @@ public class episodesList extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.find_new_episodes:
-                //int count = 0;
                 Cursor data = databaseHelper.getData();
                 ArrayList<Show> shows = new ArrayList<>();
                 while(data.moveToNext()){
                     shows.add(new Show(data.getString(1), data.getString(0), data.getString(2)));
                 }
-                if (shows != null && shows.size()!=0){
-                    Date d = Calendar.getInstance().getTime();
-                    SimpleDateFormat df = new SimpleDateFormat("MMMM d, yyyy", Locale.US);
-                    String t = df.format(d);
-                    //episodesList.setVisibility(View.INVISIBLE);
-                    //progressBar.setVisibility(View.VISIBLE);
-                    //wiki.wikiSearch ws = new wiki.wikiSearch(new Show(), getApplicationContext(), false);
+                if (shows.size()!=0){
                     for (Show s : shows){
-                        //if (!Utilities.compareDates(t,s.getNextEpisode()) && !s.getNextEpisode().equals(t)) {
-                            //ws = new wiki.wikiSearch(s, getApplicationContext(), false);
-                            //ws.execute();
-                            //count++;
                             new wiki.wikiSearch(s, getApplicationContext(), false).execute();
-                        //}
                     }
-                    //if (shows.size()!=0) {
-                      //  while (ws.getStatus() != AsyncTask.Status.FINISHED) {
-                        //}
-                    //}
-                    //progressBar.setVisibility(View.GONE);
-                    //episodesList.setVisibility(View.VISIBLE);
                 }
         }
         return true;

@@ -8,12 +8,6 @@ public class Show implements Serializable{
     private String link;
     private String nextEpisode;
 
-    /*public Show(){
-        this.name = "null";
-        this.name = "null";
-        this.name = "null";
-    }*/
-
     public Show(String name, String link, String nextEpisode) {
         this.name = name;
         this.link = link;
